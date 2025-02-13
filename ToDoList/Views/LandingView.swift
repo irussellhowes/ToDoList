@@ -23,22 +23,13 @@ struct LandingView: View {
     
     var body: some View {
         NavigationView{
-            
-            
             VStack {
-                
-                
                 List {
-                    
-                    ItemView(title: "Study for Chemistry quiz", done: false)
-                    ItemView(title: "Finish Computer Science assignment", done: true)
-                    ItemView(title: "Go for a run around campus", done: false)
-                    
-                    
-                    
+                    ItemView(currentItem: firstItem)
+                    ItemView(currentItem: secondItem)
+                    ItemView(currentItem: thirdItem)
                 }
                 .searchable(text: $searchText)
-                
                 HStack{
                     TextField("Enter a to-do item", text: $newItemDescription )
                     Button("Add"){
@@ -51,7 +42,6 @@ struct LandingView: View {
         }
     }
 }
-
 #Preview {
     LandingView()
 }
