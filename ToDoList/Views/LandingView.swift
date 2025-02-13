@@ -11,7 +11,6 @@ struct LandingView: View {
     
     // MARK: Stored properties
     
-    
     //Item being added
     @State var newItemDescription = ""
     
@@ -30,27 +29,12 @@ struct LandingView: View {
                 
                 
                 List {
-                    Label(
-                        title: {
-                            Text("Study for Chemistry quiz")
-                        }, icon:{
-                            Image(systemName: "circle")
-                        }
-                    )
-                    Label(
-                        title: {
-                            Text("Finish Computer Science assignment")
-                        }, icon:{
-                            Image(systemName: "circle")
-                        }
-                    )
-                    Label(
-                        title: {
-                            Text("Go for a run around campus")
-                        }, icon:{
-                            Image(systemName: "circle")
-                        }
-                    )
+                    
+                    ItemView(title: "Study for Chemistry quiz", done: false)
+                    ItemView(title: "Finish Computer Science assignment", done: true)
+                    ItemView(title: "Go for a run around campus", done: false)
+                    
+                    
                     
                 }
                 .searchable(text: $searchText)
@@ -70,4 +54,20 @@ struct LandingView: View {
 
 #Preview {
     LandingView()
+}
+
+struct ItemView: View {
+    
+    let title: String
+    let done: Bool
+    
+    var body: some View {
+        Label(
+            title: {
+                Text(title)
+            }, icon:{
+                Image(systemName: done == true ? "checkmark.circle" : "circle")
+            }
+        )
+    }
 }
