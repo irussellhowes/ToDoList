@@ -14,7 +14,6 @@ struct LandingView: View {
     //Item being added
     @State var newItemDescription = ""
     
-    
     //serach text
     @State var searchText = ""
     
@@ -26,37 +25,47 @@ struct LandingView: View {
     var body: some View {
         NavigationView{
             VStack {
-                
-                List{
-                    List(todos) { todo in
-                        ItemView(currentItem: firstItem)
-                        ItemView(currentItem: secondItem)
-                        ItemView(currentItem: thirdItem)
-                        ItemView(currentItem: todo)
-                    }
-                    .searchable(text: $searchText)
-                    HStack{
-                        TextField("Enter a to-do item", text: $newItemDescription )
-                        Button("Add"){
-                            createToDo(withTitle: newItemDescription)
+                List($todos) {$todo in
+                    ItemView(currentItem: todo)
+                        .swipeActions {
+                            Button(
+                                "Delete",
+                                role: .destructive,
+                                action: { delete(todo)
+                                }
+                            )
                         }
-                        .disabled(newItemDescription.isEmpty == true)
-                    }
-                    .padding(28)
+                        .onTapGesture {
+                            todo.done.toggle()
+                        }
                 }
-                .navigationTitle("To Do")
+                .searchable(text: $searchText)
+                HStack{
+                    TextField("Enter a to-do item", text: $newItemDescription )
+                    Button("Add"){
+                        createToDo(withTitle: newItemDescription)
+                    }
+                    .disabled(newItemDescription.isEmpty == true)
+                }
+                .padding(28)
             }
+            .navigationTitle("To Do")
         }
     }
     
     func createToDo(withTitle title: String) {
         
-        let todo = ToDoItem(title: title, done: false)
+        let todo = ToDoItem(
+            title: title,
+            done: false
+        )
         
         todos.append(todo)
     }
     
-    
+    func delete(_ todo: ToDoItem) {
+        todos.removeAll { currentItem in currentItem.id == todo.id}
+    }
     
 }
 #Preview {
