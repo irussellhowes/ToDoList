@@ -7,13 +7,11 @@
 
 import Foundation
 
-
 struct ToDoItem: Identifiable {
     let id = UUID ()
     var title: String
     var done: Bool
 }
-
 
 let firstItem = ToDoItem(title: "Study for Chemistry quiz", done: false)
     
@@ -22,7 +20,6 @@ let secondItem =
     
 let thirdItem =
 ToDoItem(title: "Go for a run aorund campus", done: false)
-
 
 let exampleItems = [
     ToDoItem(title: "Study for Chemistry quiz", done: false),

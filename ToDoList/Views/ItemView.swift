@@ -21,10 +21,3 @@ struct ItemView: View {
         )
     }
 }
-
-#Preview {
-    List{
-        ItemView(currentItem: firstItem)
-    }
-}
-

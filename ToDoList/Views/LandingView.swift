@@ -18,31 +18,36 @@ struct LandingView: View {
     //serach text
     @State var searchText = ""
     
+    // List of to-do items
+    @State var todos: [ToDoItem] = exampleItems
     
     // MARK: Computed properties
     
     var body: some View {
         NavigationView{
             VStack {
-                List {
-                    ItemView(currentItem: firstItem)
-                    ItemView(currentItem: secondItem)
-                    ItemView(currentItem: thirdItem)
-                }
-                .searchable(text: $searchText)
-                HStack{
-                    TextField("Enter a to-do item", text: $newItemDescription )
-                    Button("Add"){
-                        //Add the new to-do item
+                
+                List{
+                    List(todos) { todo in
+                        ItemView(currentItem: firstItem)
+                        ItemView(currentItem: secondItem)
+                        ItemView(currentItem: thirdItem)
+                        ItemView(currentItem: todo)
                     }
+                    .searchable(text: $searchText)
+                    HStack{
+                        TextField("Enter a to-do item", text: $newItemDescription )
+                        Button("Add"){
+                            //Add the new to-do item
+                        }
+                    }
+                    .padding(28)
                 }
-                .padding(28)
+                .navigationTitle("To Do")
             }
-            .navigationTitle("To Do")
         }
     }
 }
 #Preview {
     LandingView()
 }
-
