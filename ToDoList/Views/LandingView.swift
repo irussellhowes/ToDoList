@@ -22,26 +22,22 @@ struct LandingView: View {
     @Environment(\.modelContext) var modelContext
     
     // List of to-do items
-    @State var todos: [ToDoItem] = exampleItems
+    @Query var todos: [ToDoItem]
     
     // MARK: Computed properties
     
     var body: some View {
         NavigationView{
             VStack {
-                List($todos) {$todo in
-                    ItemView(currentItem: $todo)
-                        .swipeActions {
-                            Button(
-                                "Delete",
-                                role: .destructive,
-                                action: { delete(todo)
-                                }
-                            )
-                        }
-                        
+                List {
+                ForEach(todos) {todo in
+                    
+                    ItemView(currentItem: todo)
                 }
-                .searchable(text: $searchText)
+                .onDelete(perform: removeRows)
+            }
+            .searchable(text: $searchText)
+
                 HStack{
                     TextField("Enter a to-do item", text: $newItemDescription )
                     Button("Add"){
@@ -62,11 +58,13 @@ struct LandingView: View {
             done: false
         )
         
-        todos.append(todo)
+        modelContext.insert(todo)
     }
     
-    func delete(_ todo: ToDoItem) {
-        todos.removeAll { currentItem in currentItem.id == todo.id}
+    func removeRows( at offsets: IndexSet) {
+        for offset in offsets {
+            modelContext.delete(todos[offset])
+        }
     }
     
 }
